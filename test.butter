@@ -1,0 +1,215 @@
+
+package main
+
+import "core:fmt"
+
+DrawScaffold :: proc(scaffoldParams: ScaffoldParams) {
+    fmt.println("DrawScaffold")
+}
+
+BuildGraph :: proc() {
+
+}
+
+AppState :: struct {
+    coolInfoVisible: bool,
+    userName: string,
+    sliderValue: f32,
+}
+
+// Defaults: str, index 
+Deadline :: enum {
+    {Today, str="Today"},
+    {Tomorrow, str="Tomorrow"},
+    {Week, str="Week"},
+    {TwoWeeks, str="Two Weeks"},
+}
+
+GoalCardState :: struct {
+    title: string,
+    icon: string,
+    deadline: Deadline,
+    isEditing: bool,
+}
+
+ButtonWithSubtitle :: proc(icon: string, subtitle: string) -> bool {
+    PushColumnLayout(align=.Center, spacing=4) {
+        Text(text, style=style)
+        Text(subtitle, style=style)
+    }
+    return Button(text, style=style)
+}
+
+GoalCard :: proc(using goalCard: *GoalCardState, pos={0,0}, size={0,0}) -> bool
+            using GoogleIcons as icons {
+    if PushCacheWhenInputCold(.Hover) {
+        // Only execute and recalculate if mouse is over the widget, otherwise previous rendertree is found and used. With optimizations. 
+        PushCard(radius=16, border:.Solid, borderColor=.black) {
+            PushRowLayout(spacing=4) {
+                Text(icon, style={size=32, color=.black})
+                Text(title, style={size=16, color=.black})
+                ExpandNext()    // Next widget will be expanded.
+                PushRowLayout(align=.End) {
+                    Text(icons.alarm, style={size=16, color=.black})
+                    Text(deadline.str, style={size=16, color=.black})
+                    if Button(icons.edit, style={size=16, color=.gray}) {
+                        isEditing = true;
+                    }
+                }
+            }
+            VSpace(8)
+            if isEditing  {
+                PushRowLayout(align=.End) {
+                    EditBox(&title, maxLen=32)
+                    if Button(icons.trash) {
+                        DeleteGoalCard(goalCard)
+                    }
+                }
+                PushRowLayout(align=.Center, spacing=8) {
+                    if ButtonWithSubtitle(isCompleted ? icons.unchecked : icons.checked, isCompleted ? "Uncomplete" : "Complete") {
+                        isCompleted = !isCompleted;
+                    }
+                    if ButtonWithSubtitle(CustomIcons.subgoalIcon, "Add Subgoal", enabled=false) {
+                        StartAddingSubgoal(goalCard)
+                        PushAlwaysExecute() {
+                            // Do something every frame.
+                        }
+                    }
+                    if ButtonWithSubtitle(CustomIcons.habitIcon, "Add Habit", enabled=true) {
+                        StartAddingHabit(goalCard)
+                    }
+                }
+            }
+        }
+    }
+    return true;
+}
+
+Main :: proc() {
+    fmt.println("Hello, World!")
+
+    state := AppState {
+        coolInfoVisible=false,
+        userName="",
+        goalCards = [
+            GoalCardState {
+                title="Learn to code",
+                icon=GoogleIcons.code,
+                deadline=Deadline.Tomorrow,
+                isEditing=false,
+            },
+            GoalCardState {
+                title="Learn to draw",
+                icon=GoogleIcons.brush,
+                deadline=Deadline.TwoWeeks,
+                isEditing=false,
+            },
+        ]
+    }
+
+    param := DefaultScaffoldParams()
+    param.title = "Life Design"
+
+    scaffold := DefaultScaffold()   // Calculates layout given space
+    using scaffold {
+        DefaultAppBar("Life Design")
+        PushBody() {
+
+            if RequiresUpdate() {
+                gradient := LinearGradient(
+                        {pos=GetBottomLeftPos(), color=blue}, 
+                        {pos=GetTopRightPos(),   color=red}
+                    )
+                DrawGradient(gradient)
+            }
+
+            using appState {
+                PushRoundedRect(radius=16, clip=true, color=white) {
+                    PushTextStyle(size=16, color=white)
+                    Text("Hello, World!")
+
+                    if Button("Click Me") {
+                        coolInfoVisible = !coolInfoVisible
+                    }
+
+                    if coolInfoVisible {
+                        Text("You are cool!")
+                    }
+
+                    PushRowLayout() {
+                        Text("Name:")
+                        EditBox(&userName, maxLen=32)
+                    }
+
+                    if Button("Submit") {
+                        fmt.println("User name is: ${username}")
+                    }
+
+                    PushColumnLayout(align=.Center, spacing=16) {
+                        Text("This is all centered")
+                        Slider(&sliderValue, min=0, max=1, step=0.1)
+                    }
+
+                    PushRow() {Text("hi"); if Button("Click Me") {fmt.println("Clicked")}}
+
+                    // Versus 
+
+                    PopTextStyle()
+                    // Goal card list
+                    ExpandNext();
+                    PushColumnLayout(spacing=8, scroll=true) {
+                        for goalCard in goalCards {
+                            GoalCard(&goalCard)
+                        }
+                    }
+
+                    // List with tiles that are created on the fly.
+                    // TileList stores information about current scroll position. Tile layout is easily handled in a simple for loop.
+                    ExpandNext();
+                    tileList := PushTileList(tileHeight=64) {
+                        for i := tileList.fromIdx; i <= tileList.toIdx; i++ {
+                            PushTile(tileList, i) {
+                                Text("Tile ${i}")
+                            }
+                        }
+                    }
+                    
+                    // Or
+                    ExpandNext();
+                    tileList := PushTileList(tileHeight=64) {
+                        for i in tileList.fromIdx..=tileList.toIdx {
+                            PushTile(tileList, i) {
+                                Text("Tile ${i}")
+                            }
+                        }
+                    }
+
+
+                    // Tabs with scrolling horizontally between tabs.
+                    ExpandNext();
+                    tabBar := PushTabBar() {
+                        for i := 0; i < 10; i++ {
+                            if PushTab(i) {
+                                Text("Tab ${i}")
+                            }
+                        }
+                    }
+
+                    // PushTabView handles animation and sets the right offset etc etc 
+                    tabView := PushTabView(tabBar) { 
+                        switch(tabBar.value) {
+                            case 1, 2, 3, 4 {
+                                Text("Tab ${tabBar.value}")
+                            }
+
+                            default {
+                                Text("Default tab ${tabBar.value}")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
