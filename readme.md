@@ -65,12 +65,11 @@ Butter keeps track of an implicit context where the current layout and other det
 Butter does not hide its optimization details. You need to optimize manually. If a widget does not need repainting or updating, it is your responsibility to handle this. 
 
     ComplicatedThing :: proc(someText: String) -> bool {
-        if RepaintCache() toggle {
+        if RepaintCache(repaintOn=.hover|.scale) toggle {
             for i := 1..<20 {
                 TextWithLotsOfExpensiveGraphics(someText, quality=.veryHigh, size=12)
             }
-            if Button("Click me for repaint") {
-                Repaint()
-            }
         }
     }
+
+By default the contents inside the if-statement are only executed when this widget requires repainting.
