@@ -1,0 +1,14 @@
+
+counter := 0;
+
+Main :: proc() {
+
+    if Button("-")  {
+        counter--;
+    }
+    Text("$counter")
+    if Button("+")  {
+        counter++;
+    }
+    
+}

@@ -1,4 +1,8 @@
 
+<div style="text-align: center;">
+    <img src="./butter_logo.png" alt="butter_logo" width="300"/>
+</div>
+
 Butter is a replacement for Flutter. Also includes a replacement for dart called bart. 
 This is half a joke but I would really like to make it once I have time. In the far far future.
 
@@ -72,4 +76,4 @@ Butter does not hide its optimization details. You need to optimize manually. If
         }
     }
 
-By default the contents inside the if-statement are only executed when this widget requires repainting.
+The contents inside the if-statement are only executed when this widget requires repainting.
