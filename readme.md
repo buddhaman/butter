@@ -1,3 +1,4 @@
+# Butter
 
 <div style="text-align: center;">
     <img src="./butter_logo.png" alt="butter_logo" width="300"/>
@@ -6,19 +7,19 @@
 Butter is a replacement for Flutter. Also includes a replacement for dart called bart. 
 This is half a joke but I would really like to make it once I have time. In the far far future.
 
-# Motivation
+## Motivation
 
 Create a UI framework + language that makes sense. When you have 12 libraries to manage simple state then maybe you are doing something wrong. 
 
 Flutter wrote the whole stack from the ground up including renderer and language and still it has a crazy amount of boilerplate.
 Creating a stateless widget requires you to write the same name 6 times. Insanity. 
 
-# Overview
+## Overview
 
 Butter is an immediate mode Interface "framework" replacing Flutter by being 10x simpler, 10x faster and just 10x better.
 Butter keeps it simple, it has no state management and as little abstraction as possible. 
 
-# Example
+## Example
 
 Here is a simple buttton and some text
 
@@ -77,3 +78,8 @@ Butter does not hide its optimization details. You need to optimize manually. If
     }
 
 The contents inside the if-statement are only executed when this widget requires repainting.
+
+## Implementation
+
+At first Butter will be an interpreted language. The interpreter is written in GoLang.
+

@@ -16,7 +16,11 @@ func TestLexer(t *testing.T) {
 		}
 	*/
 
-	file := "((()))+++"
+	file := `
+	(){}=;+
+	let hello = 5;
+	let largeNumber = 123123891
+	`
 
 	l := NewLexer(file)
 
