@@ -27,6 +27,8 @@ const (
 	IF
 	ELSE
 	RETURN
+	EQ
+	NOT_EQ
 )
 
 var tokenTypeNames = map[TokenType]string{
@@ -54,6 +56,8 @@ var tokenTypeNames = map[TokenType]string{
 	IF:         "IF",
 	ELSE:       "ELSE",
 	RETURN:     "RETURN",
+	EQ:         "EQ",
+	NOT_EQ:     "NOT_EQ",
 }
 
 func TokStr(t TokenType) string {

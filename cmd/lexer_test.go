@@ -34,7 +34,7 @@ func TestLexer(t *testing.T) {
 		print()
 	}
 
-	if hello >= 5 {
+	if hello == 5 {
 		sdfsdf
 	} else {
 		print(hello)
