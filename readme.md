@@ -81,8 +81,6 @@ The contents inside the if-statement are only executed when this widget requires
 
 At first Butter will be an interpreted language. The interpreter is written in GoLang.
 
----
-
 ## Roadmap
 
 ### 2023: The Churning of Butter
