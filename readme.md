@@ -16,8 +16,6 @@ Creating a stateless widget requires you to write the same name 6 times. Insanit
 
 ## Overview
 
-Butter is an immediate mode Interface "framework" replacing Flutter by being 10x simpler, 10x faster and just 10x better.
-Butter keeps it simple, it has no state management and as little abstraction as possible. 
 
 ## Example
 
@@ -83,3 +81,38 @@ The contents inside the if-statement are only executed when this widget requires
 
 At first Butter will be an interpreted language. The interpreter is written in GoLang.
 
+---
+
+## Roadmap
+
+### 2023: The Churning of Butter
+
+#### 1. **The Great Unpacking**  
+*Before we spread, we churn.*
+- Unpack the foundational building blocks of Butter. 
+- Begin with the interpretation mechanism.
+- Basic REPL (Read-Eval-Print Loop) development. Because let's face it, what's a language without a way to shout at it and get some answers?
+
+#### 2. **Windows Wonders**  
+*The window to Butter's soul.*
+- Roll out the primary platform layer for Windows. 
+
+#### 3. **OpenGL Goodness**  
+*Smooth graphics, smoother UI.*
+- Dive into the world of 2D graphics. 
+- Develop rendering capabilities for buttery smooth primitives like rectangles, circles, and text.
+
+### 2024: Butter Gets Spread
+
+#### 4. **Bart's Big Break**  
+*Everyone's favorite secondary star steps into the limelight.*
+- Enhancement of the Bart language. 
+- Standard library development, focusing on essential utilities and, of course, UI components.
+  
+#### 5. **Cross-Platform Capers**  
+*Butter is too good to be restricted.*
+- Explore beyond Windows. MacOS, Linux, mobile platforms? The world is our bread slice!
+
+#### 6. **2D Graphics Galore**  
+*Adding the sprinkles on our toast.*
+- Introduce advanced 2D graphic capabilities, like gradients, animations, and maybe even a dab of 3D!
