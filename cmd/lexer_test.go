@@ -20,6 +20,25 @@ func TestLexer(t *testing.T) {
 	(){}=;+
 	let hello = 5;
 	let largeNumber = 123123891
+	
+	// this is bullshit but that doesnt matter.
+	let print = fn(something) {
+		<< something;
+	}
+
+	let n = 4*hello;
+
+	let somebool = true
+
+	if hello != 4 {
+		print()
+	}
+
+	if hello >= 5 {
+		sdfsdf
+	} else {
+		print(hello)
+	}
 	`
 
 	l := NewLexer(file)

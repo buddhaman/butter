@@ -8,6 +8,11 @@ const (
 	IDENTIFIER
 	INT
 	ASSIGN
+	BANG
+	SLASH
+	ASTERISK
+	LT
+	GT
 	PLUS
 	COMMA
 	SEMICOLON
@@ -17,6 +22,11 @@ const (
 	RBRACE
 	FUNCTION
 	LET
+	TRUE
+	FALSE
+	IF
+	ELSE
+	RETURN
 )
 
 var tokenTypeNames = map[TokenType]string{
@@ -25,6 +35,11 @@ var tokenTypeNames = map[TokenType]string{
 	IDENTIFIER: "IDENTIFIER",
 	INT:        "INT",
 	ASSIGN:     "ASSIGN",
+	BANG:       "BANG",
+	SLASH:      "SLASH",
+	ASTERISK:   "ASTERISK",
+	LT:         "LT",
+	GT:         "GT",
 	PLUS:       "PLUS",
 	COMMA:      "COMMA",
 	SEMICOLON:  "SEMICOLON",
@@ -34,15 +49,28 @@ var tokenTypeNames = map[TokenType]string{
 	RBRACE:     "RBRACE",
 	FUNCTION:   "FUNCTION",
 	LET:        "LET",
+	TRUE:       "TRUE",
+	FALSE:      "FALSE",
+	IF:         "IF",
+	ELSE:       "ELSE",
+	RETURN:     "RETURN",
 }
 
 func TokStr(t TokenType) string {
-	return tokenTypeNames[t]
+	if name, ok := tokenTypeNames[t]; ok {
+		return name
+	} else {
+		return "Unknown token"
+	}
 }
 
 var keywords = map[string]TokenType{
-	"fn":  FUNCTION,
-	"let": LET,
+	"fn":    FUNCTION,
+	"let":   LET,
+	"false": TRUE,
+	"true":  FALSE,
+	"if":    IF,
+	"else":  ELSE,
 }
 
 func LookupIdentifier(identifier string) TokenType {

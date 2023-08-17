@@ -31,6 +31,20 @@ func (l *Lexer) NextToken() Token {
 	switch l.ch {
 	case '=':
 		tok = newToken(ASSIGN, l.ch)
+	case '+':
+		tok = newToken(PLUS, l.ch)
+	case '-':
+		tok = newToken(ASSIGN, l.ch)
+	case '!':
+		tok = newToken(BANG, l.ch)
+	case '/':
+		tok = newToken(SLASH, l.ch)
+	case '*':
+		tok = newToken(ASTERISK, l.ch)
+	case '<':
+		tok = newToken(LT, l.ch)
+	case '>':
+		tok = newToken(GT, l.ch)
 	case ';':
 		tok = newToken(SEMICOLON, l.ch)
 	case '(':
@@ -39,8 +53,6 @@ func (l *Lexer) NextToken() Token {
 		tok = newToken(RPAREN, l.ch)
 	case ',':
 		tok = newToken(COMMA, l.ch)
-	case '+':
-		tok = newToken(PLUS, l.ch)
 	case '{':
 		tok = newToken(LBRACE, l.ch)
 	case '}':
@@ -56,6 +68,7 @@ func (l *Lexer) NextToken() Token {
 		} else if isDigit(l.ch) {
 			tok.Literal = l.readNumber()
 			tok.Type = INT
+			return tok
 		} else {
 			tok = newToken(ILLEGAL, l.ch)
 		}
