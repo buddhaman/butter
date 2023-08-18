@@ -1,22 +1,39 @@
 package main
 
+import "fmt"
+
 type Parser struct {
 	l *Lexer
 
 	curToken  Token
 	peekToken Token
+
+	errors []string
 }
 
 func NewParser(l *Lexer) *Parser {
-	p := &Parser{l: l}
+	p := &Parser{
+		l:      l,
+		errors: []string{},
+	}
 	p.NextToken()
 	p.NextToken()
 	return p
 }
 
+func (p *Parser) Errors() []string {
+	return p.errors
+}
+
+func (p *Parser) peekError(t TokenType) {
+	msg := fmt.Sprintf("Expected next token to be %s, got %s (%s) instead.",
+		TokStr(t), TokStr(p.peekToken.Type), p.peekToken.Literal)
+	p.errors = append(p.errors, msg)
+}
+
 func (p *Parser) NextToken() {
-	p.peekToken = p.curToken
-	p.curToken = p.l.NextToken()
+	p.curToken = p.peekToken
+	p.peekToken = p.l.NextToken()
 }
 
 func (p *Parser) parseLetStatement() *LetStatement {
@@ -52,6 +69,7 @@ func (p *Parser) expectPeek(t TokenType) bool {
 		p.NextToken()
 		return true
 	} else {
+		p.peekError(t)
 		return false
 	}
 }

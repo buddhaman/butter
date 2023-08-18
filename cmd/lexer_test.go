@@ -59,13 +59,19 @@ func TestLexer(t *testing.T) {
 func TestParser(t *testing.T) {
 
 	file := `
-	let x = 5
+	let x ! 5;
 	`
 
 	l := NewLexer(file)
 	parser := NewParser(l)
 	program := parser.ParseProgram()
-	for _, s := range program.Statements {
-		fmt.Println(s)
+	for i, s := range program.Statements {
+		fmt.Printf("%d: %+v\n", i, s)
+	}
+
+	fmt.Println("\nErrors:")
+
+	for i, e := range parser.Errors() {
+		fmt.Printf("%d: %s\n", i, e)
 	}
 }

@@ -30,14 +30,13 @@ func (l *Lexer) NextToken() Token {
 
 	switch l.ch {
 	case '=':
-		tok = newToken(ASSIGN, l.ch)
 		if l.peekChar() == '=' {
 			ch := l.ch
 			l.readChar()
 			tok.Type = EQ
 			tok.Literal = string(ch) + string(l.ch)
 		} else {
-			tok = newToken(BANG, l.ch)
+			tok = newToken(ASSIGN, l.ch)
 		}
 	case '+':
 		tok = newToken(PLUS, l.ch)
