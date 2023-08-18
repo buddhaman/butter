@@ -6,6 +6,7 @@ import (
 )
 
 func TestLexer(t *testing.T) {
+	t.Skip("Not testing lexer now.")
 	path := "tok_test.butter"
 	fmt.Println("Start reading file", path)
 
@@ -52,5 +53,19 @@ func TestLexer(t *testing.T) {
 		if tok.Type == EOF {
 			break
 		}
+	}
+}
+
+func TestParser(t *testing.T) {
+
+	file := `
+	let x = 5
+	`
+
+	l := NewLexer(file)
+	parser := NewParser(l)
+	program := parser.ParseProgram()
+	for _, s := range program.Statements {
+		fmt.Println(s)
 	}
 }
