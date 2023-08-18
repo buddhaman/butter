@@ -16,7 +16,6 @@ Creating a stateless widget requires you to write the same name 6 times. Insanit
 
 ## Overview
 
-
 ## Example
 
 Here is a simple buttton and some text

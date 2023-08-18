@@ -4,6 +4,22 @@ import (
 	"fmt"
 )
 
+const (
+	_ int = iota
+	LOWEST
+	EQUALS
+	LESSGREATER
+	SUM
+	PRODUCT
+	PREFIX
+	CALL
+)
+
+type (
+	prefixParserFn func() Expression
+	infixParserFn  func(Expression) Expression
+)
+
 type Parser struct {
 	l *Lexer
 
@@ -11,6 +27,17 @@ type Parser struct {
 	peekToken Token
 
 	errors []string
+
+	prefixParseFns map[TokenType]prefixParserFn
+	infixParserFns map[TokenType]infixParserFn
+}
+
+func (p *Parser) registerPrefix(tokenType TokenType, fn prefixParserFn) {
+	p.prefixParseFns[tokenType] = fn
+}
+
+func (p *Parser) registerInfix(tokenType TokenType, fn infixParserFn) {
+	p.infixParserFns[tokenType] = fn
 }
 
 func NewParser(l *Lexer) *Parser {
@@ -20,7 +47,15 @@ func NewParser(l *Lexer) *Parser {
 	}
 	p.NextToken()
 	p.NextToken()
+
+	p.prefixParseFns = make(map[TokenType]prefixParserFn)
+	p.registerPrefix(IDENTIFIER, p.parseIdentifier)
+
 	return p
+}
+
+func (p *Parser) parseIdentifier() Expression {
+	return &Identifier{Token: p.curToken, Value: p.curToken.Literal}
 }
 
 func (p *Parser) Errors() []string {
@@ -88,6 +123,27 @@ func (p *Parser) parseReturnStatement() *ReturnStatement {
 	return stmt
 }
 
+func (p *Parser) parseExpressionStatement() *ExpressionStatement {
+	stmt := &ExpressionStatement{Token: p.curToken}
+
+	stmt.Expression = p.parseExpression(LOWEST)
+
+	if p.peekTokenIs(SEMICOLON) {
+		p.NextToken()
+	}
+
+	return stmt
+}
+
+func (p *Parser) parseExpression(precedence int) Expression {
+	prefix := p.prefixParseFns[p.curToken.Type]
+	if prefix == nil {
+		return nil
+	}
+	leftExp := prefix()
+	return leftExp
+}
+
 func (p *Parser) parseStatement() Statement {
 	switch p.curToken.Type {
 	case LET:
@@ -95,7 +151,7 @@ func (p *Parser) parseStatement() Statement {
 	case RETURN:
 		return p.parseReturnStatement()
 	default:
-		return nil
+		return p.parseExpressionStatement()
 	}
 }
 

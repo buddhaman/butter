@@ -108,7 +108,29 @@ Main :: proc() {
     }
 
     param := DefaultScaffoldParams()
-    param.title = "Life Design"
+
+    param.title    = "Life Design"
+    param.icon     = .burger
+    param.height   = 40
+    param.radius   = 8
+    param.gradient = Gradient({0,0, blue}, {1,1, red})
+
+    using param {
+        title    = "Life Design"
+        icon     = .burger
+        height   = 40
+        radius   = 8
+        gradient = Gradient({0,0, blue}, {1,1, red})
+    }
+
+    // Or
+    using param {
+        title    = "Life Design"
+        icon     = .burger
+        height   = 40
+        radius   = 8
+        gradient = Gradient({0,0, blue}, {1,1, red})
+    }
 
     scaffold := DefaultScaffold()   // Calculates layout given space
     using scaffold {
