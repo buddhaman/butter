@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type Parser struct {
 	l *Lexer
@@ -36,6 +38,24 @@ func (p *Parser) NextToken() {
 	p.peekToken = p.l.NextToken()
 }
 
+func (p *Parser) peekTokenIs(t TokenType) bool {
+	return p.peekToken.Type == t
+}
+
+func (p *Parser) curTokenIs(t TokenType) bool {
+	return p.curToken.Type == t
+}
+
+func (p *Parser) expectPeek(t TokenType) bool {
+	if p.peekTokenIs(t) {
+		p.NextToken()
+		return true
+	} else {
+		p.peekError(t)
+		return false
+	}
+}
+
 func (p *Parser) parseLetStatement() *LetStatement {
 	stmt := &LetStatement{Token: p.curToken}
 
@@ -56,28 +76,24 @@ func (p *Parser) parseLetStatement() *LetStatement {
 	return stmt
 }
 
-func (p *Parser) peekTokenIs(t TokenType) bool {
-	return p.peekToken.Type == t
-}
+func (p *Parser) parseReturnStatement() *ReturnStatement {
+	stmt := &ReturnStatement{Token: p.curToken}
 
-func (p *Parser) curTokenIs(t TokenType) bool {
-	return p.curToken.Type == t
-}
+	p.NextToken()
 
-func (p *Parser) expectPeek(t TokenType) bool {
-	if p.peekTokenIs(t) {
+	for !p.curTokenIs(SEMICOLON) {
 		p.NextToken()
-		return true
-	} else {
-		p.peekError(t)
-		return false
 	}
+
+	return stmt
 }
 
 func (p *Parser) parseStatement() Statement {
 	switch p.curToken.Type {
 	case LET:
 		return p.parseLetStatement()
+	case RETURN:
+		return p.parseReturnStatement()
 	default:
 		return nil
 	}

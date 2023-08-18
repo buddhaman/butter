@@ -59,7 +59,8 @@ func TestLexer(t *testing.T) {
 func TestParser(t *testing.T) {
 
 	file := `
-	let x ! 5;
+	let x = 5;
+	return lskdfj dskjlflskdjf ls;
 	`
 
 	l := NewLexer(file)
@@ -74,4 +75,7 @@ func TestParser(t *testing.T) {
 	for i, e := range parser.Errors() {
 		fmt.Printf("%d: %s\n", i, e)
 	}
+
+	fmt.Println("\nAST Output:")
+	fmt.Println(program.String())
 }

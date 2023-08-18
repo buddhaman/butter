@@ -69,12 +69,13 @@ func TokStr(t TokenType) string {
 }
 
 var keywords = map[string]TokenType{
-	"fn":    FUNCTION,
-	"let":   LET,
-	"false": TRUE,
-	"true":  FALSE,
-	"if":    IF,
-	"else":  ELSE,
+	"fn":     FUNCTION,
+	"let":    LET,
+	"false":  TRUE,
+	"true":   FALSE,
+	"if":     IF,
+	"else":   ELSE,
+	"return": RETURN,
 }
 
 func LookupIdentifier(identifier string) TokenType {
