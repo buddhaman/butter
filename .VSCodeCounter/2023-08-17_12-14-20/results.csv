@@ -1,7 +1,0 @@
-"filename", "language", "Go", "comment", "blank", "total"
-"c:\Code\butter\cmd\lexer.go", "Go", 125, 0, 15, 140
-"c:\Code\butter\cmd\lexer_test.go", "Go", 37, 7, 13, 57
-"c:\Code\butter\cmd\main.go", "Go", 10, 0, 4, 14
-"c:\Code\butter\cmd\repl.go", "Go", 22, 0, 9, 31
-"c:\Code\butter\cmd\token.go", "Go", 83, 0, 8, 91
-"Total", "-", 277, 7, 49, 333
