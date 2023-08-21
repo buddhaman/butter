@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 )
 
 const (
@@ -19,6 +20,15 @@ type (
 	prefixParserFn func() Expression
 	infixParserFn  func(Expression) Expression
 )
+
+type IntegerLiteral struct {
+	Token Token
+	Value int64
+}
+
+func (il *IntegerLiteral) expressionNode()      {}
+func (il *IntegerLiteral) TokenLiteral() string { return il.Token.Literal }
+func (il *IntegerLiteral) String() string       { return il.Token.Literal }
 
 type Parser struct {
 	l *Lexer
@@ -89,6 +99,21 @@ func (p *Parser) expectPeek(t TokenType) bool {
 		p.peekError(t)
 		return false
 	}
+}
+
+func (p *Parser) parseIntegerLiteral() Expression {
+	lit := &IntegerLiteral{Token: p.curToken}
+
+	value, err := strconv.ParseInt(p.curToken.Literal, 0, 64)
+	if err != nil {
+		msg := fmt.Sprintf("Could not parse %q as an integer", p.curToken.Literal)
+		p.errors = append(p.errors, msg)
+		return nil
+	}
+
+	lit.Value = value
+
+	return lit
 }
 
 func (p *Parser) parseLetStatement() *LetStatement {
