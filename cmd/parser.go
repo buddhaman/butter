@@ -21,15 +21,6 @@ type (
 	infixParserFn  func(Expression) Expression
 )
 
-type IntegerLiteral struct {
-	Token Token
-	Value int64
-}
-
-func (il *IntegerLiteral) expressionNode()      {}
-func (il *IntegerLiteral) TokenLiteral() string { return il.Token.Literal }
-func (il *IntegerLiteral) String() string       { return il.Token.Literal }
-
 type Parser struct {
 	l *Lexer
 
@@ -60,6 +51,7 @@ func NewParser(l *Lexer) *Parser {
 
 	p.prefixParseFns = make(map[TokenType]prefixParserFn)
 	p.registerPrefix(IDENTIFIER, p.parseIdentifier)
+	p.registerPrefix(INT, p.parseIntegerLiteral)
 
 	return p
 }
