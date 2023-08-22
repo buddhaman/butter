@@ -82,7 +82,7 @@ func TestParser(t *testing.T) {
 }
 
 func TestIntegerLiteralExpression(t *testing.T) {
-	input := "5;"
+	input := "1235;"
 	l := NewLexer(input)
 	p := NewParser(l)
 	program := p.ParseProgram()
