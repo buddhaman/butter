@@ -155,10 +155,21 @@ func (p *Parser) parseExpressionStatement() *ExpressionStatement {
 func (p *Parser) parseExpression(precedence int) Expression {
 	prefix := p.prefixParseFns[p.curToken.Type]
 	if prefix == nil {
+		msg := fmt.Sprintf("No prefix parse function found for %s.", TokStr(p.curToken.Type))
+		p.errors = append(p.errors, msg)
 		return nil
 	}
 	leftExp := prefix()
 	return leftExp
+}
+
+func (p *Parser) parsePrefixExpression() PrefixExpression {
+	stmt := PrefixExpression{
+		Token:    p.curToken,
+		Operator: p.curToken.Literal,
+	}
+	stmt.Right = p.parseExpression(PREFIX)
+	return stmt
 }
 
 func (p *Parser) parseStatement() Statement {
