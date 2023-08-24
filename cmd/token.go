@@ -14,6 +14,7 @@ const (
 	LT
 	GT
 	PLUS
+	MINUS
 	COMMA
 	SEMICOLON
 	LPAREN
@@ -43,6 +44,7 @@ var tokenTypeNames = map[TokenType]string{
 	LT:         "LT",
 	GT:         "GT",
 	PLUS:       "PLUS",
+	MINUS:      "MINUS",
 	COMMA:      "COMMA",
 	SEMICOLON:  "SEMICOLON",
 	LPAREN:     "LPAREN",
