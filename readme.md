@@ -48,7 +48,7 @@ No need for callbacks. Here is a more complicated example:
             EditBox(&userName, maxLength=32)
         }
 
-        Text("Edit cool value: $sliderValue")
+        Text($"Edit cool value: {sliderValue}")
         Slider(&sliderValue, min=0, max=10, step=0.5)
     }
 
